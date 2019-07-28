@@ -1,5 +1,5 @@
 <template>
-  <div class="el-collapse">
+  <div class="el-collapse" role="tablist" aria-multiselectable="true">
     <slot></slot>
   </div>
 </template>
@@ -25,6 +25,12 @@
       };
     },
 
+    provide() {
+      return {
+        collapse: this
+      };
+    },
+
     watch: {
       value(value) {
         this.activeNames = [].concat(value);
@@ -42,9 +48,9 @@
       handleItemClick(item) {
         if (this.accordion) {
           this.setActiveNames(
-            this.activeNames[0] &&
+            (this.activeNames[0] || this.activeNames[0] === 0) &&
             this.activeNames[0] === item.name
-            ? '' : item.name
+              ? '' : item.name
           );
         } else {
           let activeNames = this.activeNames.slice(0);
